@@ -1,1 +1,31 @@
 **/bazel-*
+
+# IMPORTANT NOTE: See https://stackoverflow.com/a/5534865 for how to handle excluded directories with committed files
+
+log/*
+!log/.gitkeep
+tmp/*
+!tmp/.gitkeep
+
+.DS_Store
+*~
+
+### BEGIN IntelliJ Idea Ultimate ###
+# NOTE: These were created in IntelliJ Idea Ultimate 2018.1.2, ensure you have that version or higher.
+#       Use https://www.jetbrains.com/toolbox/app/ to install the latest version.
+.idea/.generators
+.idea/.rakeTasks
+#.idea/codeStyles
+#.idea/dataSources/*
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+#.idea/inspectionProfiles
+.idea/runConfigurations
+.idea/scopes
+.idea/tasks.xml
+.idea/workspace.xml
+#.idea/.name
+#.idea/dictionaries
+#.idea/encodings.xml
+#.idea/jsLibraryMappings.xml
+### END IntelliJ Idea Ultimate ###
