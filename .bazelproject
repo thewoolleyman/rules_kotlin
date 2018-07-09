@@ -20,7 +20,7 @@ targets:
   -//docs/...
   //kotlin/builder:for_ide
   //:all_tests
-  //examples/...
+  //examples/dagger:coffee_app
 
 test_sources:
   */unittests/*

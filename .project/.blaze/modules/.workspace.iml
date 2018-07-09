@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.system.id="Blaze" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../.." isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../examples/dagger/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../kotlin/builder/integrationtests" isTestSource="false" packagePrefix="io.bazel.kotlin.builder" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../kotlin/builder/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../kotlin/builder/unittests/io/bazel/kotlin/workers" isTestSource="false" packagePrefix="io.bazel.kotlin.builder" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/integrationtests" isTestSource="false" packagePrefix="io.bazel.kotlin.testing" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/integrationtests/jvm/basic" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/integrationtests/jvm/basic/propagation" isTestSource="false" packagePrefix="testing" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/integrationtests/jvm/basic/test_friends" isTestSource="false" packagePrefix="test" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/integrationtests/jvm/basic/testresources/src" isTestSource="false" packagePrefix="testresources" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/integrationtests/jvm/kapt" isTestSource="false" packagePrefix="tests.smoke.kapt" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../tests/rules" isTestSource="false" packagePrefix="io.bazel.kotlin.testing" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-genfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-out" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-rules_kotlin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../bazel-testlogs" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="junit-4.12-ijar_a09e6570" level="project" />
+    <orderEntry type="library" name="test_module_name_bin_9084f9eb" level="project" />
+    <orderEntry type="library" name="truth-0.40-ijar_3587356c" level="project" />
+    <orderEntry type="library" name="test_module_name_lib_9084f9eb" level="project" />
+    <orderEntry type="library" name="ap_kotlin_mixed_no_plugin_25b5cc7d" level="project" />
+    <orderEntry type="library" name="ap_kotlin_resources_mixed_25b5cc7d" level="project" />
+    <orderEntry type="library" name="for_ide_f811790c" level="project" />
+    <orderEntry type="library" name="ap_kotlin_mixed_multiple_plugins_25b5cc7d" level="project" />
+    <orderEntry type="library" name="propagation_test_exporter_lib_9084f9eb" level="project" />
+    <orderEntry type="library" name="test_embed_resources_strip_prefix_9084f9eb" level="project" />
+    <orderEntry type="library" name="ap_kotlin_25b5cc7d" level="project" />
+    <orderEntry type="library" name="builder_lib_9f474a5e" level="project" />
+    <orderEntry type="library" name="libkotlin_model_proto-speed-ijar_23ec8393" level="project" />
+    <orderEntry type="library" name="test_embed_resources_9084f9eb" level="project" />
+    <orderEntry type="library" name="assertion_test_case_e5ec236a" level="project" />
+    <orderEntry type="library" name="kapt_tests_3f04b98c" level="project" />
+    <orderEntry type="library" name="guava-25.0-jre-ijar_b7eadab8" level="project" />
+    <orderEntry type="library" name="libdeps_proto-speed-ijar_31de582c" level="project" />
+    <orderEntry type="library" name="kotlin-stdlib-jdk7_b9131a" level="project" />
+    <orderEntry type="library" name="kotlin-stdlib-jdk8_b9131a" level="project" />
+    <orderEntry type="library" name="propagation_test_runtime_lib_9084f9eb" level="project" />
+    <orderEntry type="library" name="guice-4.2.0-ijar_7041c6b0" level="project" />
+    <orderEntry type="library" name="friends_tests_9084f9eb" level="project" />
+    <orderEntry type="library" name="kotlin-stdlib_b9131a" level="project" />
+    <orderEntry type="library" name="TestRunner_deploy_520a8188" level="project" />
+    <orderEntry type="library" name="protobuf-java-3.5.1-ijar_1b9ab250" level="project" />
+    <orderEntry type="library" name="ap_kotlin_mixed_25b5cc7d" level="project" />
+    <orderEntry type="library" name="test_merge_resourcesjar_9084f9eb" level="project" />
+    <orderEntry type="library" name="ap_kotlin_mixed_inherit_plugin_via_exported_deps_25b5cc7d" level="project" />
+    <orderEntry type="library" name="basic_tests_3f04b98c" level="project" />
+    <orderEntry type="library" name="ap_kotlin_resources_25b5cc7d" level="project" />
+    <orderEntry type="library" name="ap_kotlin_mixed_multiple_plugins_one_without_processor_class_25b5cc7d" level="project" />
+    <orderEntry type="library" name="coffee_lib_9b8c371" level="project" />
+    <orderEntry type="library" name="test_module_name_attr_lib_9084f9eb" level="project" />
+    <orderEntry type="library" name="example_tests_3f04b98c" level="project" />
+    <orderEntry type="library" name="test_friends_library_9084f9eb" level="project" />
+    <orderEntry type="library" name="conventional_strip_resources_9084f9eb" level="project" />
+  </component>
+</module>

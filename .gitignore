@@ -29,3 +29,8 @@ tmp/*
 #.idea/encodings.xml
 #.idea/jsLibraryMappings.xml
 ### END IntelliJ Idea Ultimate ###
+
+### BEGIN IntelliJ Bazel Plugin ###
+.project/.idea/libraries
+.project/.idea/workspace.xml
+### END IntelliJ Bazel Plugin ###
