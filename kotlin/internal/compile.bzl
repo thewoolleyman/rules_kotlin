@@ -345,11 +345,11 @@ def _js_compile_action(ctx, rule_kind, module_name, friend_paths=depset(), src_j
 
     srcs = utils.partition_srcs(ctx.files.srcs)
 
-    if len(srcs.src_jars) == 0:
+    if (len(srcs.kt) + len(srcs.java) == 0) and len(srcs.src_jars) == 0:
         fail("no sources provided")
 
     # setup the compile action.
-    _kotlin_do_compile_action(
+    _kotlin_do_js_compile_action(
         ctx,
         output_js = kt_compile_output_js,
         srcs = srcs
