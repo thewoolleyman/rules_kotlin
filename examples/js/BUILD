@@ -11,21 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-directories:
-  # Add the directories you want added as source here
-  # By default, we've added your entire workspace ('.')
-  .
+package(default_visibility = ["//visibility:private"])
 
-targets:
-  -//docs/...
-  //kotlin/builder:for_ide
-  //:all_tests
-  //examples/dagger:coffee_app
-  //examples/js:hello_lib
+load("//kotlin:kotlin.bzl", "kt_js_library")
 
-test_sources:
-  */unittests/*
-  */integrationtests/*
-
-additional_languages:
-  kotlin
+kt_js_library(
+    name = "hello_lib",
+    srcs = glob(["src/**"]),
+)

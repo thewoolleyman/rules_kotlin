@@ -75,6 +75,14 @@ kt_jvm_library(
 )
 ```
 
+# kotlin-js support
+
+Placeholder docs, this is at proof-of-concept stage only.
+
+To run the kotlin-js support example:
+
+`bazel build //examples/js:hello_lib`
+
 # License
 
 This project is licensed under the [Apache 2.0 license](LICENSE), as are all contributions

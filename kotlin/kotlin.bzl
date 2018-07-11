@@ -111,6 +111,7 @@ load(
     _kt_jvm_import_impl = "kt_jvm_import_impl",
     _kt_jvm_junit_test_impl = "kt_jvm_junit_test_impl",
     _kt_jvm_library_impl = "kt_jvm_library_impl",
+    _kt_js_library_impl = "kt_js_library_impl",
 )
 load(
     "//kotlin:kotlin_compiler_repositories.bzl",
@@ -189,6 +190,7 @@ _runnable_common_attr = dict(_common_attr.items() + {
 ########################################################################################################################
 _common_outputs = dict(
     jar = "%{name}.jar",
+    js = "%{name}.js",
     jdeps = "%{name}.jdeps",
     # The params file, declared here so that validate it can be validated for testing.
     jar_2_params = "%{name}.jar-2.params",
@@ -247,6 +249,20 @@ Args:
   deps: A list of dependencies of this rule.See general comments about `deps` at [Attributes common to all build rules](https://docs.bazel.build/versions/master/be/common-definitions.html#common-attributes).
   module_name: The name of the module, if not provided the module name is derived from the label. --e.g., `//some/package/path:label_name` is translated to
     `some_package_path-label_name`.
+"""
+
+kt_js_library = rule(
+    attrs = dict(_common_attr.items() + {
+        "exports": attr.label_list(default = []),
+    }.items()),
+    outputs = _common_outputs,
+    toolchains = [_kt.defs.TOOLCHAIN_TYPE],
+    implementation = _kt_js_library_impl,
+)
+
+"""This rule supports compiling to javascript.
+Args:
+  TODO: TODO.
 """
 
 kt_jvm_binary = rule(

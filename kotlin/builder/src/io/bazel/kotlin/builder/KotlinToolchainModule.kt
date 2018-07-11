@@ -72,6 +72,23 @@ internal object KotlinToolchainModule : AbstractModule() {
         }
 
     @Provides
+    fun kotlinjsInvoker(toolchain: KotlinToolchain): KotlinToolchain.KotlinjsInvoker =
+        object : KotlinToolchain.KotlinjsInvoker {
+            val compilerClass = toolchain.classLoader.loadClass("io.bazel.kotlin.compiler.BazelK2JSCompiler")
+            val exitCodeClass = toolchain.classLoader.loadClass("org.jetbrains.kotlin.cli.common.ExitCode")
+
+            val compiler = compilerClass.getConstructor().newInstance()
+            val execMethod = compilerClass.getMethod("exec", PrintStream::class.java, Array<String>::class.java)
+            val getCodeMethod = exitCodeClass.getMethod("getCode")
+
+
+            override fun compile(args: Array<String>, out: PrintStream): Int {
+                val exitCodeInstance = execMethod.invoke(compiler, out, args)
+                return getCodeMethod.invoke(exitCodeInstance, *NO_ARGS) as Int
+            }
+        }
+
+    @Provides
     @KotlinToolchain.CompilerPlugin.Kapt3
     fun provideKapt3(toolchain: KotlinToolchain): KotlinToolchain.CompilerPlugin =
         KotlinToolchain.CompilerPlugin(
