@@ -60,5 +60,16 @@
     <orderEntry type="library" name="example_tests_3f04b98c" level="project" />
     <orderEntry type="library" name="test_friends_library_9084f9eb" level="project" />
     <orderEntry type="library" name="conventional_strip_resources_9084f9eb" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../vendor/kotlin-compiler/kotlin-compiler-1.2.51.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../../vendor/kotlin-compiler/kotlin-compiler-1.2.51-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
