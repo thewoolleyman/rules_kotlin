@@ -88,6 +88,12 @@ kotlin_stdlib(
 )
 
 kotlin_stdlib(
+    name = "kotlin-stdlib-js",
+    jars = ["lib/kotlin-stdlib-js.jar"],
+    srcjar = "lib/kotlin-stdlib-js-sources.jar"
+)
+
+kotlin_stdlib(
     name = "kotlin-stdlib-jdk7",
     jars = ["lib/kotlin-stdlib-jdk7.jar"],
     srcjar = "lib/kotlin-stdlib-jdk7-sources.jar"
@@ -139,6 +145,7 @@ kotlin_stdlib(
 
 alias(name="runtime", actual="kotlin-runtime")
 alias(name="stdlib", actual="kotlin-stdlib")
+alias(name="stdlib-js", actual="kotlin-stdlib-js")
 alias(name="stdlib-jdk7", actual="kotlin-stdlib-jdk7")
 alias(name="stdlib-jdk8", actual="kotlin-stdlib-jdk8")
 alias(name="reflect", actual="kotlin-reflect")

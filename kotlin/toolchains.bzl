@@ -103,6 +103,14 @@ _kt_jvm_attrs = dict(_common_attrs.items() + {
     ),
 }.items())
 
+_kt_js_attrs = dict(_common_attrs.items() + {
+    "js_stdlibs": attr.label_list(
+        default = [
+            Label("@" + _KT_COMPILER_REPO + "//:stdlib-js"),
+        ]
+    ),
+}.items())
+
 def _kotlin_toolchain_impl(ctx):
     toolchain = platform_common.ToolchainInfo(
         label = _utils.restore_label(ctx.label),
@@ -121,9 +129,31 @@ def _kotlin_toolchain_impl(ctx):
     )
     return struct(providers=[toolchain])
 
+def _kotlin_js_toolchain_impl(ctx):
+    toolchain = platform_common.ToolchainInfo(
+        label = _utils.restore_label(ctx.label),
+        language_version = ctx.attr.language_version,
+        api_version = ctx.attr.api_version,
+        coroutines = ctx.attr.coroutines,
+
+        js_target = ctx.attr.js_target,
+
+
+        kotlinbuilder = ctx.attr.kotlinbuilder,
+        kotlin_home = ctx.files.kotlin_home,
+
+        js_stdlibs = ctx.files.js_stdlibs
+    )
+    return struct(providers=[toolchain])
+
 kt_toolchain = rule(
     attrs = _kt_jvm_attrs,
     implementation = _kotlin_toolchain_impl,
+)
+
+kt_js_toolchain = rule(
+    attrs = _kt_js_attrs,
+    implementation = _kotlin_js_toolchain_impl,
 )
 
 """The kotlin jvm toolchain

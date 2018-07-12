@@ -190,7 +190,6 @@ _runnable_common_attr = dict(_common_attr.items() + {
 ########################################################################################################################
 _common_outputs = dict(
     jar = "%{name}.jar",
-    js = "%{name}.js",
     jdeps = "%{name}.jdeps",
     # The params file, declared here so that validate it can be validated for testing.
     jar_2_params = "%{name}.jar-2.params",
@@ -198,6 +197,17 @@ _common_outputs = dict(
 )
 
 _binary_outputs = dict(_common_outputs.items() + {
+}.items())
+
+########################################################################################################################
+# JS Outputs: All the outputs produced by the various rules are modelled here.
+########################################################################################################################
+_common_js_outputs = dict(
+    js = "%{name}.js",
+    # TODO: Add the meta file here
+)
+
+_binary_js_outputs = dict(_common_js_outputs.items() + {
 }.items())
 
 ########################################################################################################################
@@ -255,7 +265,7 @@ kt_js_library = rule(
     attrs = dict(_common_attr.items() + {
         "exports": attr.label_list(default = []),
     }.items()),
-    outputs = _common_outputs,
+    outputs = _common_js_outputs,
     toolchains = [_kt.defs.TOOLCHAIN_TYPE],
     implementation = _kt_js_library_impl,
 )
