@@ -85,7 +85,7 @@ def kt_jvm_library_impl(ctx):
 
 def kt_js_library_impl(ctx):
     module_name=utils.derive_module_name(ctx)
-    return compile.make_providers(
+    return compile.js_make_providers(
         ctx,
         compile.js_compile_action(ctx, "kt_js_library", module_name),
         module_name,

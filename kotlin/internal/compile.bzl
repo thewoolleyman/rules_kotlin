@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 load("//kotlin/internal:kt.bzl", "kt")
+load("//kotlin/internal:kt_js.bzl", "kt_js")
 load("//kotlin/internal:plugins.bzl", "plugins")
 load("//kotlin/internal:utils.bzl", "utils")
 
@@ -200,6 +201,11 @@ def _make_java_provider(ctx, srcs, input_deps=[], auto_deps=[]):
     )
 
 def _make_js_provider(ctx, srcs, input_deps=[], auto_deps=[]):
+  # TODO: Make this return some useful provider.  See
+  # https://docs.bazel.build/versions/master/skylark/lib/skylark-provider.html#providers
+  # Also, probably shouldn't be calling .run here?
+
+
     """Creates the java_provider for a Kotlin target.
 
     This macro is distinct from the kotlin_make_providers as collecting the java_info is useful before the DefaultInfo is
@@ -218,23 +224,13 @@ def _make_js_provider(ctx, srcs, input_deps=[], auto_deps=[]):
     deps=utils.collect_all_jars(input_deps)
     exported_deps=utils.collect_all_jars(getattr(ctx.attr, "exports", []))
 
-    my_compile_js = [ctx.outputs.js]
-    my_runtime_js = [ctx.outputs.js]
+    # see https://docs.bazel.build/versions/master/skylark/lib/actions.html#run
+    return ctx.actions.run(
+      executable = "kotlinc_js",
+      progress_message = "Compiling Kotlin JS",
+      inputs = srcs,
+      outputs = [ctx.outputs.js],
 
-    my_transitive_compile_js = my_compile_js + auto_deps
-    my_transitive_runtime_js = my_runtime_js + auto_deps
-
-    # collect the runtime js from the runtime_deps attribute.
-    for js in ctx.attr.runtime_deps:
-        my_transitive_runtime_js += js[JavaInfo].transitive_runtime_js
-
-    return java_common.create_provider(
-        use_ijar = False,
-        compile_time_js = my_compile_js,
-        # A list or a set of js that should be used at runtime for a given target.
-        runtime_js = my_runtime_js,
-        transitive_compile_time_js = my_transitive_compile_js,
-        transitive_runtime_js = my_transitive_runtime_js
     )
 
 def _make_providers(ctx, java_info, module_name, transitive_files=depset(order="default")):
@@ -263,6 +259,32 @@ def _make_providers(ctx, java_info, module_name, transitive_files=depset(order="
     return struct(
         kt=kotlin_info,
         providers=[java_info,default_info,kotlin_info],
+    )
+
+def _js_make_providers(ctx, js_info, module_name, transitive_files=depset(order="default")):
+    kotlin_info=kt_js.info.KtJsInfo(
+        srcs=ctx.files.srcs,
+        module_name = module_name,
+        # intelij aspect needs this.
+        outputs = struct(
+            js = [struct(
+              js = ctx.outputs.js,
+            )]
+        ),
+    )
+
+    default_info = DefaultInfo(
+        files=depset([ctx.outputs.js]),
+        runfiles=ctx.runfiles(
+            transitive_files=transitive_files,
+            collect_default=True
+        ),
+    )
+
+    return struct(
+        kt=kotlin_info,
+#        providers=[js_info,default_info,kotlin_info],
+        providers=[js_info,default_info,kotlin_info],
     )
 
 def _compile_action(ctx, rule_kind, module_name, friend_paths=depset(), src_jars=[]):
@@ -355,10 +377,17 @@ def _js_compile_action(ctx, rule_kind, module_name, friend_paths=depset(), src_j
 #        utils.actions.fold_jars(ctx, output_jar, output_merge_list)
 
     # create the java provider but the kotlin and default provider cannot be created here.
+
+    # TODO: This is not needed, but would be a future hook to postprocess
+    # individually-compiled JS files, e.g. bundling via webpack or something
+    # Possibly run_rollup - see https://bazelbuild.github.io/rules_nodejs/rollup/rollup_bundle.html#run_rollup
+    # e.g. https://github.com/angular/angular/blob/master/packages/bazel/src/ng_package/ng_package.bzl#L79
+    # Or maybe not - that's a custom implementation for angular
     return _make_js_provider(ctx, srcs, deps)
 
 compile = struct(
     compile_action = _compile_action,
     js_compile_action = _js_compile_action,
     make_providers = _make_providers,
+    js_make_providers = _js_make_providers,
 )
