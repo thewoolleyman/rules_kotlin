@@ -27,7 +27,7 @@ _KtJsInfo = provider(
     fields = {
         "srcs": "the source files. [intelij-aspect]",
         "module_name": "the module name",
-        "outputs": "output jars produced by this rule. [intelij-aspect]",
+        "outputs": "output js produced by this rule. [intelij-aspect]",
     },
 )
 

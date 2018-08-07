@@ -49,6 +49,17 @@ def _partition_srcs(srcs):
         src_jars = src_jars
     )
 
+def _js_partition_srcs(srcs):
+    kt_srcs = []
+
+    for f in srcs:
+        if f.path.endswith(".kt"):
+            kt_srcs.append(f)
+
+    return struct (
+        kt = kt_srcs,
+    )
+
 # DEPSET UTILS #################################################################################################################################################
 def _select_compile_jars(dep):
     """selects the correct compile time jar from a java provider"""
@@ -240,5 +251,6 @@ utils = struct(
     collect_jars_for_compile = _collect_jars_for_compile,
     restore_label = _restore_label,
     derive_module_name = _derive_module_name,
-    partition_srcs = _partition_srcs
+    partition_srcs = _partition_srcs,
+    js_partition_srcs = _js_partition_srcs
 )

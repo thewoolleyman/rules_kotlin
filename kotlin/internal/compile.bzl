@@ -133,11 +133,9 @@ def _kotlin_do_js_compile_action(ctx, output_js, srcs):
     args_file = ctx.actions.declare_file(ctx.label.name + ".js-2.params")
     ctx.actions.write(args_file, "\n".join(args))
 
-    progress_message = "Compiling Kotlin %s { kt: %d, java: %d, srcjars: %d }" % (
+    progress_message = "Compiling Kotlin %s { kt: %d }" % (
         ctx.label,
         len(srcs.kt),
-        len(srcs.java),
-        len(srcs.src_jars)
     )
 
     inputs, _, input_manifests = ctx.resolve_command(tools = [toolchain.kotlinbuilder])
@@ -203,7 +201,7 @@ def _make_java_provider(ctx, srcs, input_deps=[], auto_deps=[]):
 def _make_js_provider(ctx, srcs, input_deps=[], auto_deps=[]):
   # TODO: Make this return some useful provider.  See
   # https://docs.bazel.build/versions/master/skylark/lib/skylark-provider.html#providers
-  # Also, probably shouldn't be calling .run here?
+  # See rules_typescript/internal/build_defs.bzl
 
 
     """Creates the java_provider for a Kotlin target.
@@ -225,13 +223,21 @@ def _make_js_provider(ctx, srcs, input_deps=[], auto_deps=[]):
     exported_deps=utils.collect_all_jars(getattr(ctx.attr, "exports", []))
 
     # see https://docs.bazel.build/versions/master/skylark/lib/actions.html#run
-    return ctx.actions.run(
+    # TODO: Some action here to compile js?
+    ctx.actions.run(
       executable = "kotlinc_js",
       progress_message = "Compiling Kotlin JS",
-      inputs = srcs,
+      inputs = srcs.kt,
       outputs = [ctx.outputs.js],
 
     )
+
+    # TODO: Should something useful go in this providers?
+    js_provider = provider(
+               doc = "a provider",
+               fields = {},
+           )
+    return provider()
 
 def _make_providers(ctx, java_info, module_name, transitive_files=depset(order="default")):
     kotlin_info=kt.info.KtInfo(
@@ -262,6 +268,7 @@ def _make_providers(ctx, java_info, module_name, transitive_files=depset(order="
     )
 
 def _js_make_providers(ctx, js_info, module_name, transitive_files=depset(order="default")):
+  # TODO: How should js_info be used?  Ignored for now
     kotlin_info=kt_js.info.KtJsInfo(
         srcs=ctx.files.srcs,
         module_name = module_name,
@@ -273,6 +280,16 @@ def _js_make_providers(ctx, js_info, module_name, transitive_files=depset(order=
         ),
     )
 
+    # TODO: Where does this belong?  Probably not here?
+    # see https://docs.bazel.build/versions/master/skylark/lib/actions.html#run
+    ctx.actions.run(
+      executable = "kotlinc_js",
+      progress_message = "Compiling Kotlin JS",
+      inputs = srcs.kt,
+      outputs = [ctx.outputs.js],
+
+    )
+
     default_info = DefaultInfo(
         files=depset([ctx.outputs.js]),
         runfiles=ctx.runfiles(
@@ -281,10 +298,13 @@ def _js_make_providers(ctx, js_info, module_name, transitive_files=depset(order=
         ),
     )
 
+    print(js_info)
+    print(kotlin_info)
+
     return struct(
         kt=kotlin_info,
 #        providers=[js_info,default_info,kotlin_info],
-        providers=[js_info,default_info,kotlin_info],
+        providers=[default_info,kotlin_info],
     )
 
 def _compile_action(ctx, rule_kind, module_name, friend_paths=depset(), src_jars=[]):
@@ -360,9 +380,9 @@ def _js_compile_action(ctx, rule_kind, module_name, friend_paths=depset(), src_j
 
     deps = ctx.attr.deps + getattr(ctx.attr, "friends", [])
 
-    srcs = utils.partition_srcs(ctx.files.srcs)
+    srcs = utils.js_partition_srcs(ctx.files.srcs)
 
-    if (len(srcs.kt) + len(srcs.java) == 0) and len(srcs.src_jars) == 0:
+    if len(srcs.kt) == 0:
         fail("no sources provided")
 
     # setup the compile action.
